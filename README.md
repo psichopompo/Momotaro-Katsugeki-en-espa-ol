@@ -1,2 +1,2 @@
-# Momotaro-Katsugeki-en-espa-ol
+# Momotaro Katsugeki en castellano
 Proyecto de traducción del juego Momotaro Katsugeki
