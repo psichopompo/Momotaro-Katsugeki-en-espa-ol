@@ -1,0 +1,725 @@
+[img]https://i.imgur.com/xLwdNML.png[/img]
+[size=200][b]Momotaro Katsugeki (PC Engine) - Diario de desarrollo de la traducción al castellano[/b][/size]
+
+[size=150][b]Resumen de los avances realizados[/b][/size]
+
+[quote][list]
+[*] Prompt "PULSA BOTÓN RUN" y menú EMPEZAR / CONTINUAR traducidos.
+[*] Selector CANTO DE JIZO / CARGAR corregido y ensanchado.
+[*] Parrilla latina de passwords completa.
+[*] Cursor reprogramado.
+[*] Fuente adaptada.
+[*] Opciones traducidas.
+[*] Buffer inferior corregido.
+[*] Prompt superior ampliado.
+[*] Mensajes de error adaptados.
+[*] Passwords originales compatibles.
+[*] La prisión de la pantalla de passwords (botón II) resuelta.
+[*] Pantalla de carga sin bloque negro ni artefacto.
+[*] Charla de introducción traducida y paginada.[/list][/quote]
+
+[size=150][b]Bienvenidos al diario de desarrollo[/b][/size]
+
+El pasado 28 de julio publiqué la traducción al castellano de [i]Nekketsu Koukou Dodgeball-bu: Soccer Hen[/i] para Mega Drive. Fue mi primer proyecto de [i]romhacking[/i] y, para mi sorpresa, también la primera traducción conocida de ese juego a cualquier idioma. Después de tres días de trabajo intenso terminé con la sensación de haber aprendido muchísimo, lo suficiente, pensé, como para afrontar un segundo proyecto con bastante más confianza. No podía estar más equivocado.
+
+[b]Momotaro Katsugeki[/b], para PC Engine, ha terminado convirtiéndose en un desafío muy distinto. No porque el juego sea mejor o peor, ni porque el japonés resulte especialmente complicado, sino porque cada nuevo avance ha ido destapando problemas que ni siquiera imaginaba cuando decidí empezar esta traducción. Muy pronto comprendí que traducir el texto era sólo una pequeña parte del trabajo: antes había que entender cómo estaba construida la ROM, localizar fuentes, estudiar rutinas, adaptar gráficos, crear herramientas cuando hacían falta y, sobre todo, averiguar por qué las soluciones que parecían más evidentes muchas veces no funcionaban.
+
+Y precisamente por eso nace este hilo. No quiero limitarme a publicar un parche cuando todo haya terminado; me parece mucho más interesante compartir el camino recorrido, los problemas que han ido apareciendo y las soluciones que, con mayor o menor acierto, nos han permitido seguir avanzando.
+
+[size=150][b]Mucho más que una traducción[/b][/size]
+
+[spoiler]Una de las cosas que más me sorprendió tras publicar mi anterior proyecto fue comprobar que mucha gente imaginaba que, gracias a la inteligencia artificial, este tipo de trabajos empiezan a ser casi automáticos. Después de apenas unos días inmerso en Momotaro Katsugeki puedo decir que la realidad es bastante diferente.
+
+La inteligencia artificial está realizando un trabajo técnico inmenso y sería imposible entender este proyecto sin su participación. Pero también he descubierto que avanzar no consiste simplemente en hacer preguntas y esperar respuestas: muchas veces hay que preparar el terreno antes siquiera de poder plantear el siguiente problema. Eso significa obtener capturas concretas, preparar partidas guardadas, realizar pruebas dentro del juego, recopilar información, localizar puntos de ruptura para depuración, comprobar hipótesis, descartar otras, replantear estrategias y volver sobre ideas que parecían agotadas. En otras ocasiones toca redibujar gráficos, adaptar fuentes, modificar elementos gráficos o comprobar que un pequeño cambio no haya provocado un problema completamente distinto.
+
+Con el paso de los días he llegado a la conclusión de que este proyecto no trata únicamente de traducir un juego: también está siendo una forma de descubrir cómo puede desarrollarse una investigación técnica entre una persona y una inteligencia artificial cuando ninguno de los dos dispone de una hoja de ruta predefinida.[/spoiler]
+
+[size=150][b]¿Qué encontrarás en este hilo?[/b][/size]
+
+[spoiler]La idea es que este primer mensaje vaya creciendo junto con el proyecto.
+
+Iré documentando los principales hitos de la traducción, las decisiones más importantes, los problemas encontrados y las soluciones que hayan permitido seguir avanzando. Siempre que resulte interesante añadiré capturas, gráficos y explicaciones técnicas, procurando que el hilo pueda disfrutarse tanto si simplemente quieres seguir el desarrollo del proyecto como si además sientes curiosidad por el romhacking.
+
+Para evitar un muro de texto, muchos de los aspectos más técnicos aparecerán dentro de bloques desplegables, dejando el cuerpo principal del diario lo más ameno posible.
+
+Ojalá este hilo termine siendo algo más que la presentación de una traducción. Me gustaría que también sirviera para mostrar todo el trabajo que permanece oculto detrás de un parche terminado y que, en la mayoría de los casos, nunca llega a verse.[/spoiler]
+
+[size=150][b]¿Qué es Momotaro Katsugeki?[/b][/size]
+
+[spoiler]Aunque fuera de Japón sea un gran desconocido, [i]Momotaro Katsugeki[/i] forma parte de una de las franquicias más populares y queridas del país.
+
+La saga principal, [i]Momotaro Densetsu[/i], cosechó un enorme éxito dentro del género del RPG, mientras que [i]Momotaro Dentetsu[/i] terminaría convirtiéndose en todo un fenómeno gracias a sus juegos de tablero, una serie que sigue viva hoy en día y que continúa vendiendo millones de copias en Japón.
+
+[i]Momotaro Katsugeki[/i] fue una propuesta diferente dentro de ese universo. En lugar de apostar por el rol o los tableros, trasladó a Momotaro al género de las plataformas y la acción, aprovechando además buena parte de lo que hacía tan especial al catálogo de PC Engine: escenarios muy coloridos, personajes enormemente expresivos, animaciones llenas de pequeños detalles y un sentido del humor constante.
+
+[center][i][img]https://i.imgur.com/dVcQFAL.png[/img][/i][/center]
+
+Si tuviera que compararlo con otro juego conocido por aquí, probablemente la referencia más clara serían los [i]Ganbare Goemon[/i].
+
+Comparten esa misma mezcla de folclore japonés, fantasía, humor costumbrista y escenarios inspirados en un Japón feudal idealizado, todo ello acompañado por personajes caricaturescos con muchísimo carisma. Es ese tipo de juegos que consiguen arrancarte una sonrisa constantemente gracias a sus animaciones, expresiones y situaciones absurdas.
+
+Dentro de la propia franquicia existen también los [i]Momotaro Dengeki[/i] de Game Boy, que recuerdan bastante a esta entrega y ayudan a hacerse una idea del estilo jugable que buscaba Hudson.
+
+Pero precisamente todas esas virtudes esconden también el mayor obstáculo para cualquiera que haya pensado alguna vez en traducirlo.
+
+No sólo estamos ante un juego con una enorme cantidad de diálogos, sino que muchos de ellos aparecen en bocadillos con escritura vertical y lectura de derecha a izquierda, tal y como es habitual en el japonés tradicional. A eso hay que añadir numerosos textos integrados en gráficos, menús y elementos visuales que requieren una adaptación completamente manual.
+
+No es casualidad que, después de más de tres décadas, el juego siga sin contar con una traducción completa a ningún idioma.
+
+Hasta donde he podido comprobar, únicamente existe un intento muy temprano de traducción al inglés que apenas llegó a modificar algunos menús. Nunca llegó a resolver los verdaderos retos técnicos del juego y terminó abandonándose cuando el proyecto apenas había comenzado.
+
+Y quizá esa fue precisamente una de las razones por las que terminé eligiéndolo.
+
+Porque detrás de su aspecto desenfadado se escondía un desafío técnico muy superior al que imaginaba en un primer momento.
+
+[color=#808080][i]Y ahí fue donde comenzó realmente esta aventura.[/i][/color][/spoiler]
+
+[size=150][b]Las primeras investigaciones[/b][/size]
+
+[spoiler]Cada proyecto comienza mucho antes de encontrar la primera línea de texto. En este caso, todo empezó con una pregunta muy sencilla: ¿cómo está construido realmente [i]Momotaro Katsugeki[/i]? La experiencia obtenida con el proyecto anterior servía como punto de partida, pero era evidente que no podía dar nada por sentado, porque cada juego utiliza sus propias rutinas, organiza la información de una forma distinta y plantea problemas completamente diferentes, por mucho que ambos pertenezcan a la misma época. Antes de traducir una sola palabra había que averiguar con qué nos enfrentábamos.
+
+Las primeras sospechas estaban bastante claras incluso antes de abrir la ROM. Sabía que uno de los mayores retos serían los diálogos mostrados en bocadillos verticales, escritos de arriba abajo y con lectura de derecha a izquierda, tal y como es habitual en el japonés tradicional. Mi idea inicial era intentar convertir ese sistema en uno de escritura horizontal, mucho más natural para una traducción al castellano; sobre el papel parecía una buena solución, siempre que fuera técnicamente posible. A eso había que añadir todos los textos integrados en gráficos, la futura adaptación de la pantalla de título, los menús, la localización de punteros, el estudio de las rutinas de impresión, la posible compresión de datos y un largo etcétera de incógnitas que sólo podrían resolverse investigando la ROM desde dentro.
+
+Las primeras horas no estuvieron dedicadas a traducir, sino a comprender. Se comenzó identificando la estructura general de la ROM, comprobando su organización interna y preparando un pequeño conjunto de herramientas de trabajo que permitieran inspeccionar gráficos, fuentes y código con mayor comodidad. Paralelamente, fui recopilando capturas de distintas zonas del juego para facilitar la localización posterior de los diálogos y disponer de referencias visuales durante toda la investigación.
+
+Y entonces llegó la primera buena noticia: muy pronto quedó claro que, al menos una parte muy importante del texto del juego, no estaba comprimida de forma global. Aquello abría una puerta enorme, porque antes incluso de comprender por completo el funcionamiento interno del motor de texto ya era posible empezar a localizar mensajes, estudiar la codificación utilizada y analizar cómo se organizaban los distintos bloques de diálogo. No era, ni mucho menos, el final del problema; en realidad, sólo era el comienzo. Pero por primera vez el proyecto dejaba de ser una idea para convertirse en una investigación con un camino real por delante.
+
+A partir de ese momento empezaría el verdadero trabajo de ingeniería inversa: localizar las fuentes, entender la codificación del texto, seguir el rastro de los punteros y descubrir, paso a paso, cómo conseguía el juego mostrar cada uno de sus diálogos.[/spoiler]
+
+[size=150][b]La fuente y la tabla de caracteres[/b][/size]
+
+[spoiler]Uno de los primeros objetivos era averiguar cómo almacenaba el juego su texto. La gran incógnita era saber si nos encontraríamos con una ROM completamente comprimida o si, con un poco de suerte, parte del guion estaría almacenado de forma relativamente accesible, porque esa diferencia podía suponer pasar de un proyecto abordable a uno prácticamente imposible sin desarrollar primero un sistema completo de descompresión.
+
+Afortunadamente, las primeras investigaciones trajeron una noticia muy esperanzadora: una parte muy importante del texto del juego aparecía almacenada en claro, utilizando una codificación japonesa de un byte basada en katakana. Aquello significaba que era posible localizar diálogos, analizarlos y empezar a comprender cómo estaban organizados incluso antes de haber desentrañado por completo el motor de texto. No era una solución al problema, pero sí era la primera puerta que conseguíamos abrir.
+
+[quote][b][size=125]Detalles técnicos de la codificación encontrada[/size][/b]
+
+Aquí podré ir ampliando toda la información relacionada con la tabla de caracteres, los códigos de control, la estructura de los mensajes, los distintos bancos de texto y las herramientas que se fueron desarrollando para extraer e insertar los diálogos.
+
+(Incluiré también capturas del volcado de texto, tablas de equivalencias y ejemplos reales conforme vaya avanzando el proyecto.)[/quote]
+
+A partir de ahí comenzó uno de los trabajos más importantes de toda la investigación: identificar qué significaba cada byte que aparecía mezclado con el texto. Pronto fueron apareciendo los primeros códigos de control, responsables de cambiar de bocadillo, finalizar un mensaje, introducir pausas o modificar la forma en que el juego representaba los diálogos. Cada nuevo código identificado permitía comprender un poco mejor el funcionamiento interno del motor de texto y acercaba la posibilidad de realizar una traducción completa.
+
+Sin embargo, el descubrimiento que más me llamó la atención fue otro: los diálogos verticales no eran gráficos dibujados manualmente, como en un primer momento podía parecer, sino texto generado dinámicamente por el propio juego. Entre los caracteres aparecían una serie de separadores que todo apuntaba a que indicaban el cambio de columna en los bocadillos verticales. Aquello cambiaba completamente la perspectiva del proyecto, porque el problema ya no consistía únicamente en traducir el japonés al castellano, sino en encontrar la forma de convencer al propio juego de que dejara de escribir en vertical para hacerlo de una manera natural en nuestro idioma.
+
+Fue uno de esos momentos en los que una investigación responde una pregunta y, al mismo tiempo, plantea otras diez mucho más difíciles. Pero también fue la primera vez que tuve la sensación de que el proyecto empezaba a dejar de ser una incógnita para convertirse en un problema que, con paciencia, podía llegar a resolverse.[/spoiler]
+
+[size=150][b]Adaptación gráfica y pixel art[/b][/size]
+
+[spoiler]Cuando pensamos en una traducción solemos imaginar únicamente el texto, pero en muchos juegos de principios de los noventa una parte importante del idioma no está almacenada como tal, sino integrada directamente en los gráficos. Pantallas de título, menús, carteles, indicadores y logotipos forman parte del propio apartado artístico del juego, y Momotaro Katsugeki no es una excepción.
+
+Desde el principio quedó claro que una traducción completa exigiría mucho más que localizar los diálogos: también habría que adaptar una gran cantidad de elementos gráficos para que el resultado final pareciera un lanzamiento pensado desde el primer momento para el mercado español. Y ahí el proyecto cambió de naturaleza. Mientras la investigación técnica seguía avanzando para comprender el funcionamiento interno de la ROM, empecé a trabajar en paralelo sobre el aspecto visual del juego.
+
+Algunas tareas fueron relativamente sencillas, como sustituir pequeños textos japoneses integrados en gráficos, pero otras resultaron bastante más laboriosas. La pantalla de título, por ejemplo, obligó a replantear por completo el diseño original para crear una versión en castellano que mantuviera la personalidad del logotipo japonés sin limitarse a copiarlo literalmente. No se trataba simplemente de escribir otro texto, sino de respetar el ritmo, el equilibrio y el carácter del diseño original, adaptándolo al espacio disponible y a las limitaciones propias del hardware de PC Engine.
+
+[center][i][img]https://i.imgur.com/nViScqy.png[/img][/i][/center]
+
+Algo parecido ocurrió con la tipografía: en algunos casos fue necesario modificar caracteres existentes y en otros crear letras completamente nuevas para que el castellano pudiera representarse con naturalidad, respetando siempre el estilo gráfico del juego. Mi objetivo nunca ha sido que el jugador perciba constantemente que está jugando a una traducción; al contrario, siempre que ha sido posible he intentado que cada elemento adaptado dé la impresión de haber formado parte del juego desde el primer día.
+
+Esa búsqueda de naturalidad ha terminado convirtiéndose en uno de los aspectos que más tiempo está consumiendo durante el proyecto, pero también en uno de los que más satisfacción produce cuando una pantalla empieza a parecer exactamente como la imaginabas.[/spoiler]
+
+[size=150][b]El arranque: el prompt y el menú principal[/b][/size]
+
+[spoiler]Una vez comprendida la estructura de la ROM y la codificación del texto, llegó el momento de poner los pies en el suelo y empezar a tocar pantallas reales. Y el punto de partida natural era, como no podía ser de otra manera, el arranque del juego.
+
+[b]El "PULSA BOTÓN RUN"[/b]
+
+[img]https://i.imgur.com/U4NNuaE.png[/img]
+
+Lo primero que aparece nada más encender es la pantalla de título, con el rótulo en japonés y, bajo él, un pequeño texto que invita a pulsar el botón de inicio. Ese primer texto era el "PULSA BOTÓN RUN", un mensaje sencillo, directo y perfecto para hacer las primeras pruebas con la fuente latina.
+
+Y aquí empezó el primer aprendizaje importante: no todo el texto del juego se dibuja de la misma manera. Algunos textos se escriben como caracteres normales, pero otros se generan proyectando bloques gráficos en la VRAM y mostrándolos después como sprites. Ese segundo caso es bastante más delicado, porque el juego sólo prepara tantos bloques como necesitaba el texto japonés original. Si la frase en castellano es más larga, los bloques adicionales no existen y acaban apareciendo con basura gráfica.
+
+Ese mismo patrón iba a repetirse en casi todas las pantallas: el texto en castellano casi siempre es más largo que el japonés, y el juego rara vez está preparado para esa diferencia.
+
+[b]El menú EMPEZAR / CONTINUAR[/b]
+
+El siguiente paso fue el menú principal: EMPEZAR / CONTINUAR.
+
+[img]https://i.imgur.com/3t4ZxQA.png[/img]
+
+Un detalle curioso que descubrí durante las primeras pruebas es que este menú es [b]horizontal[/b], no vertical. Es decir, las dos opciones se muestran una al lado de la otra, y la selección se mueve hacia la derecha o hacia la izquierda. Eso parece una tontería, pero es exactamente el tipo de cosa que, si no la tienes en cuenta, te hace pulsar la dirección equivocada y acabar en una pantalla inesperada.
+
+De hecho, en más de una ocasión una pulsación de "abajo" en lugar de "derecha" me llevó a la introducción del juego sin querer, descolocando por completo la navegación que intentaba reproducir.
+
+[b]¿Adónde nos lleva cada opción?[/b]
+
+Entender el flujo del menú fue fundamental, porque la estructura es la siguiente:
+
+[list]
+[*]Al elegir [b]EMPEZAR[/b] (sin partida guardada) se accede directamente a la pantalla de introducción de la [b]contraseña del canto de Jizo[/b].
+[*]Si [b]hay una partida guardada[/b], al elegir [b]CONTINUAR[/b] no se entra directo al password, sino al selector [b]CANTO DE JIZO / CARGAR[/b].
+[*]Desde ese selector, [b]CANTO DE JIZO[/b] te lleva a la pantalla de password.
+[*]Desde ese selector, [b]CARGAR[/b] te lleva a la pantalla de [b]carga de partidas guardadas[/b].[/list]
+
+Esa distinción es clave y aparecerá una y otra vez: según haya o no partida guardada, el flujo del juego cambia. Y, como veremos más adelante, esa dependencia de la partida guardada también acabó causando más de un dolor de cabeza.
+
+[img]https://i.imgur.com/kBHe5yZ.png[/img]
+
+Con el prompt traducido y el menú principal resuelto, el siguiente gran reto era la pantalla de passwords. Un capítulo que merece su propio espacio.[/spoiler]
+
+[size=150][b]El reto de la pantalla de passwords[/b][/size]
+
+[spoiler]Hasta ese momento ya habíamos conseguido comprender buena parte del funcionamiento interno de la ROM: habíamos localizado texto, empezábamos a entender la codificación utilizada por el juego y ya se habían adaptado algunos elementos gráficos. Sin embargo, todavía quedaba un obstáculo que terminaría convirtiéndose en uno de los mayores retos de toda la traducción: la pantalla de [i]passwords[/i].
+
+A simple vista parece uno de los apartados más sencillos del juego, una cuadrícula de caracteres y unas pocas opciones para introducir o cargar una contraseña, pero la realidad era muy distinta. Todo ese sistema estaba diseñado específicamente para el japonés. No bastaba con sustituir unos caracteres por otros; había que replantear por completo la forma en la que el juego mostraba la parrilla, desplazaba el cursor, interpretaba la entrada de datos y gestionaba una gran cantidad de elementos internos que, hasta ese momento, permanecían ocultos.
+
+Lo que sigue a continuación no es una explicación teórica, sino el recorrido real que fue siguiendo esta parte del proyecto. Creo que resume bastante bien la filosofía de toda esta traducción: detrás de un cambio aparentemente pequeño suele esconderse una cantidad enorme de trabajo que el jugador nunca llega a ver.
+
+[b][size=125]El infernal canto de Jizo[/size][/b]
+
+La pantalla de password ha sido una de las partes más complicadas de la traducción hasta ahora. A simple vista parecía una pantalla relativamente sencilla: una tabla de caracteres, un cursor y unas opciones. Sin embargo, por dentro mezcla varias cosas a la vez: fuente, gráficos generados en VRAM, sprites, tilemaps, lógica japonesa de kana, control de cursor y validación interna de passwords.
+
+Además, el sistema original está diseñado alrededor del silabario japonés. Al pasarlo a una parrilla latina, no basta con cambiar los dibujos de las letras: también hay que adaptar la lógica para que el cursor, los valores internos y la validación sigan funcionando.
+
+[/quote]
+
+[b]1. Cambio de la parrilla japonesa a una parrilla latina[/b]
+
+[url=https://i.imgur.com/KnGt6wY.png][img]https://i.imgur.com/KnGt6wY.png[/img][/url]
+
+La pantalla original usa caracteres japoneses. Para la traducción se ha sustituido por una parrilla latina con letras, eñe y números.
+
+La distribución final es ésta:
+
+[code]
+
+A B C D E F G     a b c d e f g
+
+H I J K L M N     h i j k l m n
+
+Ñ O P Q R S T     ñ o p q r s t
+
+U V W X Y Z       u v w x y z
+
+    0 1 2 3 4     5 6 7 8 9
+
+[/code]
+
+No es una simple tabla alfabética lineal. Opté por esta disposición porque visualmente encaja mejor en la pantalla y permite separar mayúsculas, minúsculas y números de forma clara. Fue una suerte que el total de los caracteres japoneses en la parrilla coincidiera exactamente con la suma de las letras del abecedario en mayúsculas y minúsculas más los números del 0 al 9. 64 caracteres en total. Esto era importante porque a cada carácter japonés había que asignarle uno latino.
+
+[b]Dificultad:[/b]  
+
+La parrilla japonesa original no estaba pensada como una tabla latina plana. Había huecos, caracteres combinados, dakuten y handakuten (marcas en forma de comillas o círculo que se añaden a algunos caracteres hiragana y katakana para cambiar su pronunciación; por ejemplo, [i]ha[/i] pasa a [i]ba[/i] con dakuten y a [i]pa[/i] con handakuten), además de una lógica de navegación propia. Por eso hubo que rehacer tanto la parte visual como la lógica de selección.
+
+---
+
+[b]2. Corrección de la lógica del cursor[/b]
+
+Al cambiar la parrilla, el cursor dejó de coincidir con las letras visibles. En las primeras pruebas se movía por posiciones antiguas de la tabla japonesa o seleccionaba caracteres que no correspondían.
+
+Se localizaron y modificaron las tablas internas que controlan:
+
+[list]
+
+[*]las posiciones X del cursor;
+
+[*]las posiciones Y del cursor;
+
+[*]los valores internos de cada casilla;
+
+[*]los límites de navegación;
+
+[*]los huecos que deben saltarse.[/list]
+
+También se corrigió la dirección horizontal, porque al principio izquierda/derecha estaban invertidas respecto al nuevo orden latino (al decir "nuevo orden latino", no me refiero a una distopía en la que un nuevo imperio romano o una confederación de países hispanohablantes ha tomado el control del planeta. 😂).
+
+---
+
+[b]3. Ajustes especiales de navegación[/b]
+
+Una vez establecida la parrilla final, se pulieron casos concretos donde pulsar abajo llevaba a posiciones poco naturales.
+
+Se corrigieron estos casos:
+
+[code]
+
+U / V + abajo  -&gt; 0
+
+T     + abajo  -&gt; Z
+
+t     + abajo  -&gt; z
+
+z     + abajo  -&gt; 9
+
+[/code]
+
+Esto hace que el movimiento sea más lógico con la nueva distribución.
+
+---
+
+[b]4. Fuente latina corregida[/b]
+
+Se preparó una fuente latina compatible con la pantalla de password. Esta fuente se corrigió varias veces para mejorar su legibilidad.
+
+Se corrigieron especialmente letras como:
+
+[code]
+
+b, d, p, q, ñ, Ñ
+
+[/code]
+
+También se revisaron signos y caracteres especiales.
+
+Más adelante se corrigieron los signos de apertura:
+
+[code]
+
+¡
+
+¿
+
+[/code]
+
+usando como base los signos de cierre:
+
+[code]
+
+!
+
+?
+
+[/code]
+
+para que tuvieran el mismo grosor y estilo.
+
+---
+
+[b]5. Solución al problema de la q en adelante[/b]
+
+Durante las pruebas se descubrió que, a partir de cierta letra, al insertar caracteres aparecían símbolos incorrectos o marcas encima.
+
+El motivo era que la rutina original japonesa interpretaba algunos valores como caracteres con dakuten/handakuten. Es decir, seguía aplicando lógica japonesa a nuestros valores latinos.
+
+Se corrigió modificando el umbral de esa ruta para que nuestros caracteres latinos no entraran en ella.
+
+Resultado: todos los caracteres de la parrilla latina se insertan correctamente.
+
+---
+
+[b]6. Buffer inferior: puntos y separadores[/b]
+
+La caja inferior donde se escribe el password también necesitaba ajustes.
+
+En la versión japonesa, los huecos se muestran como puntos gruesos y los grupos se separan con barras:
+
+[code]
+
+. . . . / . . . . / . . . . /
+
+. . . . / . . . . / . . . . /
+
+. . . . / . . . . /
+
+[/code]
+
+[url=https://i.imgur.com/x4rg4bk.png][img]https://i.imgur.com/x4rg4bk.png[/img][/url]
+
+Al principio aparecían letras incorrectas en los huecos porque los patrones usados por el juego se solapaban con los nuevos caracteres latinos.
+
+Se corrigió para que:
+
+[list]
+
+[*]los huecos vacíos vuelvan a mostrarse como puntos gruesos;
+
+[*]los separadores `/` se mantengan como en la versión japonesa;
+
+[*]la opción ESPACIO deje un punto grueso en el slot, no una barra.[/list]
+
+---
+
+[b]7. Traducción de las opciones de la derecha[/b]
+
+Las opciones japonesas de la derecha se tradujeron como:
+
+[code]
+
+ADELANTE
+
+ATRÁS
+
+ESPACIO
+
+BORRAR
+
+FIN
+
+[/code]
+
+La opción japonesa que inicialmente parecía “introducir” resultó ser en realidad [b]ESPACIO[/b]: inserta un hueco en la posición actual y desplaza lo posterior.
+
+Estas opciones no se renderizaron con texto normal, sino como gráficos adaptados para que encajaran en la columna derecha.
+
+También se corrigió el puntero/cursor de esas opciones para que quedara alineado.
+
+---
+
+[b]8. Texto superior: “¡Introduce el canto de Jizo!”[/b]
+
+El mensaje superior original japonés era mucho más corto. La traducción deseada era:
+
+[code]
+
+¡Introduce el canto de Jizo!
+
+[/code]
+
+El problema era que la caja original sólo mostraba una cantidad limitada de caracteres. Al principio la frase se cortaba.
+
+Para solucionarlo se investigó cómo se generaban los gráficos del texto. No era simplemente escribir caracteres en pantalla: el juego genera bloques gráficos en VRAM y luego los proyecta como sprites.
+
+Se descubrió que el juego sólo preparaba suficientes bloques para el texto japonés original. Al proyectar más bloques para la frase española, los últimos aparecían con basura gráfica.
+
+La solución fue ampliar la rutina que prepara esos bloques. El cambio clave fue ampliar el contador de preparación para que cubriera todos los bloques necesarios.
+
+Después se reconstruyó el marco superior para que cubriera el texto completo.
+
+Resultado final:
+
+[code]
+
+¡Introduce el canto de Jizo!
+
+[/code]
+
+visible entero, limpio y con el marco cerrado.
+
+---
+
+[b]9. Mensaje de error del canto de Jizo[/b]
+
+El mensaje japonés de error era:
+
+[code]
+
+じぞうのうたが ちがっとるぞ!
+
+ちゃんと かくにんして
+
+もういちど いれなおすのじゃ!
+
+[/code]
+
+La traducción final elegida fue:
+
+[code]
+
+¡El canto de Jizo
+
+no es correcto!
+
+Revísalo bien e
+
+inténtalo de nuevo.
+
+[/code]
+
+Aquí apareció otro problema parecido: el bocadillo original sólo estaba preparado para unas pocas líneas y cierto ancho. Además, si se repetía el error, quedaban residuos gráficos de mensajes anteriores.
+
+Se hicieron varias cosas:
+
+[list]
+
+[*]ampliar la “ventanilla” real que muestra el texto;
+
+[*]ajustar el bocadillo para cubrir las cuatro líneas;
+
+[*]centrar el conjunto estatua + bocadillo + texto;
+
+[*]limpiar correctamente el área usada antes de redibujar el mensaje;
+
+[*]evitar residuos al repetir passwords erróneos o al volver desde endings.[/list]
+
+Resultado: el mensaje se muestra completo y limpio.
+
+---
+
+[b]10. Prueba de passwords secretos conocidos[/b]
+
+Se probaron varios passwords secretos conocidos de la versión japonesa. Como la parrilla latina conserva los valores internos del juego, los passwords siguen funcionando, aunque ahora los caracteres visibles no coinciden con el japonés original.
+
+Passwords probados correctamente:
+
+[code]
+
+Ending muy difícil: wCpeIfP
+
+Ending normal:      cJQIep
+
+Ending difícil:     GoFIBM
+
+Ending fácil:       rGAPad
+
+Sound test:         BqdGlCIWÑI
+
+Graphics test:      BqdGlDWÑI
+
+[/code]
+
+Esto confirmó algo muy importante: el sistema interno de passwords sigue funcionando.
+
+---
+
+[b]11. Por qué los passwords ahora parecen no tener sentido[/b]
+
+En el juego original, algunos passwords secretos tenían sentido oculto o eran bromas internas. Por ejemplo, ciertos passwords leídos al revés hacían referencia a nombres de miembros del staff.
+
+Al cambiar la parrilla japonesa por una latina, mantenemos los valores internos necesarios para que el juego funcione, pero la representación visible cambia. Por eso, lo que antes tenía sentido en hiragana ahora se convierte en una secuencia latina extraña.
+
+Ejemplo: un password japonés secreto puede convertirse en algo como:
+
+[code]
+
+rGAPad
+
+[/code]
+
+Funciona, pero no significa nada para un jugador hispanohablante.
+
+No podemos cambiar libremente esos passwords sin más, porque el juego no los trata como texto normal: muchos están conectados a valores internos o a la validación del sistema de passwords.
+
+---
+
+[b]Tarea pendiente: alias de passwords[/b] (esto es una idea que se me ha ocurrido hace sólo media hora)
+
+Una posible mejora futura sería crear [b]alias[/b] para algunos passwords secretos.
+
+La idea sería que el jugador pudiera introducir una frase sencilla en castellano, y que el juego internamente la tradujera al password real.
+
+En lugar de obligar al jugador a escribir una secuencia aparentemente aleatoria como:
+
+[code]
+
+BqdGlDWÑI
+
+[/code]
+
+podríamos permitir introducir directamente la traducción del password original en japonés. Por ejemplo, el password secreto que desbloquea el [b]Graphics test[/b] es:
+
+[code]
+
+いわさきはえがへた
+
+[/code]
+
+cuya traducción sería:
+
+[code]
+
+Iwasaki dibuja mal
+
+[/code]
+
+Funcionaría así:
+
+[code]
+
+El jugador escribe una frase española
+
+        ↓
+
+El juego compara esa frase con una tabla de alias
+
+        ↓
+
+Si coincide, sustituye internamente por el password real
+
+        ↓
+
+La validación original del juego sigue funcionando
+
+[/code]
+
+Esto tendría varias ventajas:
+
+[list]
+
+[*]no romperíamos el sistema original de passwords;
+
+[*]mantendríamos compatibilidad con la lógica interna;
+
+[*]los passwords secretos volverían a tener sentido para el jugador;
+
+[*]podríamos conservar el significado original de los passwords japoneses.[/list]
+
+Sería una mejora posterior, no prioritaria ahora mismo, pero queda anotada como tarea pendiente.
+
+---
+
+[b]Estado actual de la pantalla de password[/b]
+
+A día de hoy, la pantalla de password ya tiene:
+
+[list]
+
+[*]parrilla latina funcional;
+
+[*]cursor y navegación corregidos;
+
+[*]opciones traducidas;
+
+[*]buffer inferior arreglado;
+
+[*]prompt superior traducido y visible completo;
+
+[*]mensaje de error traducido y limpio;
+
+[*]passwords originales comprobados;
+
+[*]fuente corregida;
+
+[*]signos de apertura corregidos.[/list]
+
+Viendo el resultado final puede parecer una pantalla más, pero ha sido una de las partes más complejas de la traducción hasta ahora. Para conseguirlo ha sido necesario localizar y modificar tablas internas, gráficos, rutinas de generación de VRAM, lógica de navegación, validación de passwords y otros sistemas que el juego original diseñó específicamente para el japonés. Aun sin experiencia previa en romhacking, el proyecto ha ido saliendo adelante gracias a muchas horas de investigación, pruebas y paciencia.
+
+Quedan pendientes los submenús relacionados con carga/backup y, más adelante, estudiar posibles alias para passwords secretos.
+
+En fin, ya veis todo el trabajo que ha tenido sólo la pantalla de passwords, pero aun siendo una tarea tan compleja, la he podido sacar adelante echándole horas sin tener conocimientos de romhacking. Imaginad lo que podría hacer alguien que sí los tenga. Mi ventaja real en este proyecto (y en el Nekketsu Soccer) es que entiendo bastante japonés y llevo años haciendo pixel art (además de trabajar como ilustrador). Todo lo demás es dirigir el cotarro con sentido común, intuición, organización, paciencia y cabezonería.
+
+[size=125][b]Balance provisional[/b][/size]
+
+Mirando la pantalla terminada cuesta imaginar todo el trabajo que hay detrás. Lo que hoy parece una sencilla adaptación al castellano ha obligado a modificar gráficos, tablas internas, rutinas de VRAM, navegación del cursor, lógica específica para el silabario japonés, validación de contraseñas y otros muchos elementos que originalmente nunca fueron concebidos para funcionar con nuestro idioma.
+
+Y, aun así, todavía quedan algunos detalles por pulir. Los submenús relacionados con la carga y copia de partidas continúan en la lista de tareas pendientes, y existe además una idea que me gustaría explorar más adelante: adaptar algunos de los [i]passwords[/i] especiales para que también puedan introducirse mediante palabras en castellano, siempre respetando el funcionamiento interno del juego.
+
+Después de todo este proceso, la pantalla de passwords ha terminado convirtiéndose en mucho más que una simple pantalla de introducción de claves: ha sido uno de esos retos que te obligan a entender mucho mejor cómo funciona el juego por dentro y que, una vez superados, hacen que el resto del proyecto parezca un poco menos inabarcable.[/spoiler]
+
+[size=150][b]El selector CANTO DE JIZO / CARGAR[/b][/size]
+
+[spoiler]Después de la pantalla de passwords, el siguiente frente fue el selector [i]CANTO DE JIZO / CARGAR[/i]. Recordemos el contexto: cuando hay una partida guardada, al elegir CONTINUAR el juego no va directo a la pantalla de password, sino que muestra este pequeño menú con dos opciones.
+
+El problema era doble. Por un lado, el texto en castellano de "CANTO DE JIZO" y "CARGAR" no cabía en el bocadillo original, que estaba pensado para las palabras japonesas, mucho más cortas; el texto se salía por los lados y se cortaba. Por otro lado, al ensanchar el texto apareció un problema de solapamiento: las dos opciones compartían zona de memoria y, como "CANTO DE JIZO" era más largo, invadía el espacio que debía ocupar "CARGAR". El resultado era un texto ilegible en el que ambas líneas se mezclaban.
+
+[b]La causa de fondo: los chunks de sprites[/b]
+
+Para entenderlo había que saber cómo dibuja el juego estos menús. El texto no se escribe como caracteres normales: el juego genera bloques gráficos (llamémoslos "chunks") en la VRAM y luego los proyecta como sprites. Cada opción del menú tiene reservado un número fijo de bloques, calculado para el texto japonés. Al traducir a frases más largas, los bloques que faltan no se preparan, así que aparecen con basura gráfica o invaden los bloques de la opción vecina. La solución pasó por ampliar el espacio reservado para cada opción y reorganizar los destinos de memoria para que ninguna línea pisara a la otra.
+
+[b]El bocadillo: ampliar sin descolocar[/b]
+
+Una vez resuelto el texto, tocaba el marco. El bocadillo original era demasiado estrecho y había que ensancharlo para que cupiera "CANTO DE JIZO" sin desbordar, pero sin descolocar el resto de la pantalla. El texto del selector está alineado a la izquierda, con un pequeño melocotón como puntero de selección; la frase más larga ("CANTO DE JIZO") marca el ancho necesario, dejando un margen de unos 8 píxeles a cada lado, y el conjunto queda centrado en pantalla. Fue un trabajo de ajuste fino: ampliar el marco, recolocar el texto y asegurarse de que el melocotón siguiera señalando correctamente cada opción.
+
+[img]https://i.imgur.com/kBHe5yZ.png[/img]
+
+[b]Un detalle técnico curioso[/b]
+
+Durante esta fase hubo un momento de confusión importante: perseguimos durante horas "la lista de sprites" que proyectaba el texto del selector... y no existía. El texto del selector no se dibuja con sprites, sino en el plano de fondo (BG). Lo que parecían patrones de letras eran, en realidad, el relleno negro y las esquinas del marco de la caja. Fue un buen recordatorio de que, en romhacking, a veces la hipótesis más razonable es exactamente la equivocada.[/spoiler]
+
+[size=150][b]La pantalla de carga de partidas guardadas[/b][/size]
+
+[spoiler]La tercera parada del flujo fue la pantalla de carga de partidas guardadas. Aquí el juego muestra la pregunta [i]"¿Cuál quieres cargar?"[/i] y, debajo, la lista de partidas guardadas con su nombre y dificultad. El reto principal era el mismo de siempre: la pregunta en castellano es mucho más larga que el texto japonés, y el bocadillo no estaba preparado para ella. Pero esta pantalla tenía además dos problemas añadidos que terminaron siendo muy ilustrativos: el [b]bloque negro[/b] y el [b]artefacto gráfico[/b].
+
+[b]El bloque negro que tapaba la pregunta[/b]
+
+En cuanto traducimos la pregunta, apareció un bloque negro que la tapaba parcialmente. La causa era un clásico del romhacking: al ensanchar el texto, quedaron sprites "huérfanos". El juego reservaba ciertos sprites para el relleno del texto japonés original; al cambiar el texto, esos sprites dejaron de tener función y se quedaron flotando como bloques negros encima de la pregunta. La solución no fue borrarlos, porque reaparecían en cuanto entraba el flujo del password, sino reposicionarlos sobre la propia pregunta, de modo que las piezas encajaran sobre una de las letras y dejaran de verse como una mancha negra. Era determinista y funcionaba en todos los emuladores.
+
+[b]El artefacto en la partida guardada[/b]
+
+El segundo problema era más sutil: junto a la partida guardada aparecía un artefacto gráfico, un recuadro con píxeles sueltos, que curiosamente sólo se veía en un emulador concreto (Mesen) mientras que en otros pasaba desapercibido. El dato más revelador fue que la ROM japonesa original funcionaba perfectamente, es decir, el artefacto era 100% culpa de nuestra traducción.
+
+La causa estaba en la limpieza de la VRAM. Al ensanchar las líneas de la pantalla de carga, las direcciones de memoria donde se dibuja el texto cambiaron, pero la rutina que limpia la VRAM seguía limpiando el rango antiguo, dejando sin limpiar las zonas nuevas, donde se acumulaba basura gráfica. La solución fue ampliar el rango de limpieza para que cubriera todas las líneas nuevas, y tras el ajuste el artefacto desapareció en todos los emuladores.
+
+[img]https://i.imgur.com/9Xijf3L.png[/img]
+
+[b]Lección de este capítulo[/b]
+
+Al ensanchar cualquier texto, no basta con que "se vea bien" a primera vista: hay que revisar todas las rutinas que dependen del ancho (la limpieza de memoria, los sprites sobrantes, los tiles reservados...) y, además, probarlo en varios emuladores, porque un bug puede ser invisible en uno y evidente en otro.[/spoiler]
+
+[size=150][b]La prisión de la pantalla de passwords[/b][/size]
+
+[spoiler]Hubo un momento del proyecto en el que dejé de pensar en la pantalla de [i]passwords[/i] como un simple menú: empecé a verla como una prisión. Y no es una metáfora. Si el jugador entraba en ella, sólo existían dos formas de salir: introducir una contraseña válida... o pulsar el botón RESET de la consola. No había ninguna opción para regresar al menú anterior.
+
+Así funcionaba el juego original y, probablemente, nadie en Hudson llegó a plantearse que aquello pudiera resultar incómodo. Pero cuanto más tiempo pasaba probando la traducción, más artificial me parecía ese comportamiento. Lo curioso era que el propio juego ya tenía la solución: en otros menús bastaba con pulsar el botón II para volver atrás. ¿Por qué precisamente la pantalla de passwords era una excepción?
+
+La idea parecía tan sencilla que apenas le di importancia. Sólo había que hacer que esa pantalla respondiera igual que las demás; pensé que sería una pequeña mejora de calidad de vida que podría implementar en una tarde. No podía estar más equivocado. Desde el momento en que decidimos añadir esa función, el proyecto dejó de consistir en traducir un juego: ahora intentábamos enseñarle a hacer algo que nunca había sabido hacer.
+
+[center][i][img]https://i.imgur.com/Er97urP.png[/img][/i][/center]
+
+[size=125][b]El primer éxito... y la primera caída[/b][/size]
+
+Después de localizar las rutinas implicadas y comprender cómo gestionaba el juego la navegación por los distintos menús, conseguimos que el botón II respondiera. La sensación fue fantástica: pulsabas el botón y abandonabas la pantalla. Problema resuelto. O eso parecía, porque bastó seguir haciendo pruebas durante unos minutos para descubrir que el cambio había empezado a producir efectos completamente inesperados. La pantalla seguía funcionando... pero otras ya no.
+
+[size=125][b]El efecto dominó[/b][/size]
+
+Lo que vino después fue una de las fases más desconcertantes de toda la investigación. Cada modificación solucionaba un problema y descubría otro distinto. A veces aparecían bloques negros donde antes no existían; en otras ocasiones algunos textos cambiaban ligeramente de posición. Había pantallas que dejaban de actualizar correctamente determinadas zonas de la VRAM, y algunos retornos conducían al lugar equivocado. Y, cuando parecía que por fin todo volvía a estar bajo control, aparecía un nuevo comportamiento inesperado. Era como intentar reparar un reloj tocando únicamente sus engranajes visibles: cada pieza estaba relacionada con otra, y ninguna venía acompañada de un plano que explicara cómo funcionaba el conjunto.
+
+[size=125][b]La partida que nunca existió[/b][/size]
+
+Uno de los errores más curiosos apareció cuando decidimos probar qué ocurría si el jugador intentaba abandonar la pantalla sin disponer de ninguna partida guardada. La lógica indicaba que simplemente no debería pasar nada, pero eso no fue lo que ocurrió: de algún modo terminábamos accediendo a la pantalla de carga de partidas y, lo más sorprendente, el juego permitía cargar una partida... inexistente.
+
+El resultado era digno de una película de ciencia ficción. El juego arrancaba en escenarios completamente rotos, con variables internas que contenían valores absurdos. El personaje aparecía con cantidades desorbitadas de vidas, enormes reservas de puntos de vida y cantidades de dinero imposibles de conseguir durante una partida normal. Otras veces, en cambio, la partida "funcionaba" de forma engañosa, lo que hacía el error todavía más traicionero. No era un secreto oculto por los desarrolladores, sino simplemente el juego interpretando como una partida válida unos datos que nunca habían sido pensados para representar una partida. Aquello demostraba hasta qué punto una modificación aparentemente inocente podía alterar zonas del programa que, en teoría, no tenían ninguna relación con la pantalla de passwords.
+
+[size=125][b]Hipótesis, pruebas y callejones sin salida[/b][/size]
+
+Durante esos días el trabajo dejó de parecerse a una traducción y se convirtió en una investigación. Cada nueva hipótesis obligaba a preparar una ROM de pruebas: había que generar nuevas compilaciones, cargar partidas guardadas concretas, repetir recorridos una y otra vez, capturar pantallas, colocar puntos de ruptura para observar qué estaba ocurriendo en memoria y comparar el comportamiento con el juego original. En muchas ocasiones una explicación parecía perfectamente razonable, hasta que una simple prueba demostraba que estábamos mirando el problema desde el lugar equivocado. Entonces tocaba volver atrás, replantearlo todo y empezar de nuevo. Esa dinámica terminó repitiéndose una y otra vez durante toda esta fase del proyecto.
+
+[size=125][b]La batalla entre emuladores[/b][/size]
+
+Una de las mayores complicaciones fue conseguir que la solución funcionara de forma consistente en todos los emuladores, porque lo que funcionaba en uno no funcionaba en otro y viceversa. El problema era que algunos indicadores de memoria RAM se inicializaban de forma distinta según el emulador: un byte que en uno valía 0 (sin partida guardada) podía valer otro valor en otro, lo que hacía que la lógica condicional tomara caminos distintos. Esto nos obligó a buscar un discriminador fiable, algo que supiera sin lugar a dudas si había o no partida guardada. La respuesta estaba en la BRAM, la memoria de respaldo que guarda la partida, que sí se comportaba de forma consistente entre emuladores.
+
+[size=125][b]La decisión final: elegir la estabilidad[/b][/size]
+
+La solución definitiva no llegó gracias a una única gran idea, sino poco a poco. Tras muchas versiones, la conclusión fue clara: el comportamiento "perfecto" (con partida ir al selector, sin partida ir al título) era extremadamente difícil de hacer fiable en todos los emuladores, porque dependía de matices de memoria que cada uno trataba distinto. Se tomó entonces una decisión pragmática y honesta: hacer que el botón II en el password resetease al título en todos los casos. Era el comportamiento más robusto: no rompía nada, no corrompía partidas, funcionaba igual en todos los emuladores y cumplía el objetivo principal de escapar de la prisión. De paso, se incorporaron los fixes del bloque negro y del artefacto de la pantalla de carga. No fue la solución más elegante técnicamente hablando, pero fue la correcta: en romhacking, a veces la mejor solución es la que no rompe nada, aunque no sea la más espectacular.
+
+[size=125][b]Una modificación invisible[/b][/size]
+
+Probablemente nadie que juegue a la traducción piense demasiado en esta mejora: entrará en la pantalla, pulsará el botón II, volverá al menú anterior y seguirá jugando. Precisamente ése era el objetivo. Las mejores modificaciones son aquellas que terminan pareciendo parte del juego original, pero detrás de esa acción que apenas dura una fracción de segundo hubo varios días de investigación, incontables pruebas, hipótesis descartadas y una larga cadena de errores que jamás habrían aparecido si nos hubiéramos limitado a traducir los textos.
+
+Fue entonces cuando comprendí que este proyecto ya no consistía únicamente en localizar un juego japonés: también consistía en entenderlo lo bastante bien como para enseñarle a hacer cosas que nunca había hecho.[/spoiler]
+[size=150][b]La introducción y el idioma de los diálogos[/b][/size]
+
+[spoiler]Con la base estable, el siguiente objetivo fue traducir la charla de introducción que aparece al pulsar EMPEZAR, antes del selector de dificultad. Es el momento en que el juego te da la bienvenida, te explica que cualquiera puede superar "Momotaro Katsugeki" y te anima a elegir el Modo Fácil si es tu primera vez.
+
+Localizar ese texto costó lo suyo: el puntero que el juego usa para leerlo se monta en tiempo de ejecución y no es una dirección estática fácil de encontrar. Tras bastante ingeniería inversa apareció la rutina que carga el puntero de la charla. El texto japonés ocupaba 391 bytes y nuestra traducción al español necesitaba más espacio, así que la solución fue reubicar el texto a una zona libre de la ROM y redirigir el puntero del juego para que leyera desde el nuevo sitio. Sólo había que tocar dos bytes del puntero, pero localizarlos fue la parte difícil.
+
+[b]El idioma de los diálogos[/b]
+
+Al insertar el texto en español apareció un problema inesperado: los diálogos no mostraban bien los acentos ni las minúsculas. La causa era que el motor de diálogo usa un idioma de caracteres distinto al de los menús: mientras que los menús usan una fuente latina con acentos y minúsculas, los diálogos usan otra fuente basada en katakana y un conjunto de caracteres ASCII limitado.
+
+En la práctica:
+
+[list]
+[*]las MAYÚSCULAS y los números funcionaban bien;
+[*]las minúsculas y los acentos no tenían glifos propios en la fuente del diálogo;
+[*]algunos bytes que usábamos para acentos caían en una ruta de fallback que los dibujaba como katakana.[/list]
+
+Tras varios intentos (algunos fallidos que nos dejaron lecciones valiosas), quedó claro que traducir con minúsculas y acentos de forma fiable exigía un trabajo fino de fuentes: diseñar glifos nuevos, reubicarlos en memoria libre y asegurar que el renderizador los leyera. Por ahora, la charla se mantiene en mayúsculas.
+
+[b]El paginado y las pausas de lectura[/b]
+
+Un detalle importante de la charla es cómo se muestra en pantalla. El bocadillo sólo muestra 4 líneas a la vez. El texto va haciendo scroll y una flecha indica cuándo pulsar para continuar.
+
+En la traducción ajustamos el texto a páginas de 4 líneas cada una, para que el jugador pudiera leer con calma y la flecha apareciera en el momento adecuado, igual que en el original.[/spoiler]
+
+[size=150][b]Estado actual y siguientes pasos[/b][/size]
+
+[spoiler]A día de hoy, el proyecto cuenta con:
+
+[list]
+[*]prompt "PULSA BOTÓN RUN" traducido;
+[*]menú principal EMPEZAR / CONTINUAR correcto;
+[*]selector CANTO DE JIZO / CARGAR ensanchado y legible;
+[*]pantalla de carga con pregunta en una línea, sin bloque negro ni artefacto;
+[*]selección de dificultad con textos y bocadillo correctos;
+[*]pantalla de password completamente traducida y funcional;
+[*]botón II en el password para salir de la prisión (de forma estable);
+[*]charla de introducción traducida y paginada (de momento en mayúsculas);
+[*]passwords secretos originales verificados.[/list]
+
+Quedan por delante:
+
+[list]
+[*]el acabado fino de la fuente de diálogo (minúsculas y acentos);
+[*]la traducción de los diálogos del juego: aldeanos, tiendas, escenas e intros;
+[*]la adaptación de los bocadillos pequeños (lógica compartida para todos los diálogos);
+[*]el "Modo Súper Difícil" cuando se desbloquea, para que su nombre largo no desborde;
+[*]posibles alias para passwords secretos (idea anotada en el capítulo de passwords).[/list]
+
+[quote][b]Una IA no sustituye el proceso de investigación. Forma parte de él.[/b][/quote]
+
+Si has llegado hasta aquí, ya sabes que detrás de cada pantalla "sencilla" de este juego hay horas de ensamblador, memoria, pruebas, emuladores y paciencia. Y también, por qué no decirlo, una buena dosis de colaboración entre una persona y su compañero de investigación artificial.
+
+Gracias por leer. Y, cuando salga la traducción, espero que la disfrutes con la misma ilusión con la que la hemos construido.
+
+[color=#808080][i]Este diario se irá actualizando conforme avance el proyecto.[/i][/color][/spoiler]
