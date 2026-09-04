@@ -622,7 +622,7 @@ Como comentaba en el capítulo de la parrilla, el juego trae una serie de passwo
 
 ## Estado actual y cierre
 
-A día de hoy el proyecto está, salvo por la firma, terminado. Han sido **un mes y una semana** de trabajo, unas doscientas versiones numeradas, un guion completo traducido y una lista de normas que ya supera las doscientas treinta. Y si tuviera que quedarme con una sola idea de todo el proceso, sería ésta:
+A día de hoy el proyecto está, salvo por la firma, terminado. Han sido **un mes y una semana** de trabajo, unas cuatrocientas versiones numeradas, un guion completo traducido y una lista de normas que ya supera las cuatrocientas cuarenta. Y si tuviera que quedarme con una sola idea de todo el proceso, sería ésta:
 
 > **Una IA no sustituye el proceso de investigación. Forma parte de él.**
 
