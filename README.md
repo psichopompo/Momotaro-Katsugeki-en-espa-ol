@@ -1,5 +1,8 @@
+<img width="1280" height="350" alt="xLwdNML - Imgur" src="https://github.com/user-attachments/assets/2bb3e8db-1f94-47f4-ac3a-e21e44102bc5" />
+
 # Momotaro Katsugeki (PC Engine) — Diario de desarrollo de la traducción al castellano
-<img width="1280" height="350" alt="xLwdNML - Imgur" src="https://github.com/user-attachments/assets/a736539e-2559-45eb-90be-39a8219a8555" />
+
+
 El pasado 28 de julio publiqué la traducción al castellano de *Nekketsu Koukou Dodgeball-bu: Soccer Hen* para Mega Drive. Fue mi primer proyecto de *romhacking* y, para mi sorpresa, también la primera traducción conocida de ese juego a cualquier idioma. Después de tres días de trabajo intenso terminé con la sensación de haber aprendido muchísimo, lo suficiente, pensé, como para afrontar un segundo proyecto con bastante más confianza.
 
 No podía estar más equivocado.
