@@ -2,11 +2,8 @@
 
 # Momotaro Katsugeki (PC Engine) — Diario de desarrollo de la traducción al castellano
 
-<div align="center">
-  <img width="256" height="239" alt="Momotarou Katsugeki (Japan)_003" src="https://github.com/user-attachments/assets/6fd3ab35-0518-4c3f-a7f7-7f16ffb2ce78" />
-</div>
-
-
+<img width="256" height="239" alt="Momotarou Katsugeki (Japan)_002" src="https://github.com/user-attachments/assets/d9b07f82-884f-4de0-8a92-dd8cc9456813" /> 
+<img width="256" height="239" alt="Momotarou Katsugeki (Japan)_003" src="https://github.com/user-attachments/assets/b36a588e-da81-4fa9-ace9-a5176be78856" /> <img width="256" height="239" alt="Momotarou Katsugeki (Japan)_023" src="https://github.com/user-attachments/assets/26d173aa-a31b-4c86-9a3a-0e613cc6ae95" />
 
 El pasado 28 de julio publiqué la traducción al castellano de *Nekketsu Koukou Dodgeball-bu: Soccer Hen* para Mega Drive. Fue mi primer proyecto de *romhacking* y, para mi sorpresa, también la primera traducción conocida de ese juego a cualquier idioma. Después de tres días de trabajo intenso terminé con la sensación de haber aprendido muchísimo, lo suficiente, pensé, como para afrontar un segundo proyecto con bastante más confianza.
 
@@ -45,8 +42,6 @@ Todo está ya cerrado.
 
 <img width="256" height="239" alt="Momotarou Katsugeki (Japan)_004" src="https://github.com/user-attachments/assets/bac782f3-e8cf-4f4f-aebf-28b78a0bd884" /> <img width="256" height="239" alt="Momotarou Katsugeki (Japan)_005" src="https://github.com/user-attachments/assets/40387e6d-5fd4-4a63-8116-552ee3456d1d" /> <img width="256" height="239" alt="Momotarou Katsugeki (Japan)_000" src="https://github.com/user-attachments/assets/d3d380ab-2827-45b6-a17e-2a757c21837a" />
 
-
-
 ---
 
 ## Mucho más que una traducción
@@ -68,6 +63,8 @@ Y ahí aparece algo que no había previsto: **la colaboración no funciona en un
 Otras veces ocurre al revés. La IA contempla posibilidades que yo jamás habría llegado a plantearme, detecta relaciones entre rutinas aparentemente independientes o señala que un problema que intentamos resolver en un punto concreto tiene su origen varias capas más abajo. Y entonces me toca a mí seguir esa pista, comprobar que no lleva a ninguna parte, o aportar una observación que cambie otra vez el enfoque.
 
 Ahí está, para mí, la parte realmente interesante del proyecto. La intuición humana no aparece "alguna vez" como un golpe de suerte: está presente continuamente, al decidir qué probar, qué descartar, cuándo insistir y cuándo cambiar de dirección. Pero tampoco es infalible. Más de una vez una corazonada mía ha resultado equivocada y una medición la ha desmontado en segundos. Y al contrario: un análisis técnico impecable iba encaminado a una solución que sobre el papel parecía correcta, hasta que una prueba dentro del juego revelaba que algo no cuadraba.
+
+<img width="256" height="239" alt="Momotarou Katsugeki (Japan)_024" src="https://github.com/user-attachments/assets/29f66911-55cc-43fc-947d-681bc86cda14" /> <img width="256" height="239" alt="Momotarou Katsugeki (Japan)_025" src="https://github.com/user-attachments/assets/374bd9e3-8c92-4e1f-94b0-8cdf08e165a8" /> <img width="256" height="239" alt="Momotarou Katsugeki (Japan)_026" src="https://github.com/user-attachments/assets/65aed8b5-52b4-4add-a967-7dd76b5094da" />
 
 Yo aporto contexto, criterio, observación, intuición y dirección; la IA aporta una capacidad de análisis y exploración técnica extraordinariamente amplia. Pero ninguno de los dos trabaja en un compartimento estanco. Cada descubrimiento modifica lo que sabe el otro, cada prueba puede cambiar la estrategia y cada problema puede hacer aparecer una solución que ninguno habría planteado al principio.
 
@@ -111,6 +108,8 @@ La lección es muy de andar por casa: cuando algo no cuadra, a veces no falla lo
 
 Uno de los primeros objetivos era averiguar cómo almacenaba el juego su texto. La incógnita era si nos encontraríamos una ROM completamente comprimida o si parte del guion estaría accesible, porque esa diferencia podía convertir un proyecto abordable en uno casi imposible. Por suerte, buena parte del texto aparecía almacenada en claro, con una codificación japonesa de un byte basada en katakana. Se podían localizar diálogos y entender cómo estaban organizados antes incluso de desentrañar el motor de texto. No era la solución, pero sí la primera puerta abierta.
 
+<img width="256" height="239" alt="Momotarou Katsugeki (Japan)_015" src="https://github.com/user-attachments/assets/eb0fe333-1ff7-4192-9007-ae22c196f87a" /> <img width="256" height="239" alt="Momotarou Katsugeki (Japan)_016" src="https://github.com/user-attachments/assets/3ad15f3d-76b1-4bb2-9203-d1485f88440a" /> <img width="256" height="239" alt="Momotarou Katsugeki (Japan)_017" src="https://github.com/user-attachments/assets/3b2a4ca7-e792-48c7-9f82-4d0db0408f17" />
+
 El primer hallazgo importante fue que el juego no tiene una fuente, sino **dos**, y son completamente distintas: una para los diálogos y otra para los menús. Distinto tamaño de letra, distinta manera de guardarlas y, sobre todo, distinta forma de buscar cada carácter. Parece un detalle menor y ha sido una de las trampas más caras del proyecto. Varias veces medimos algo en una fuente, lo dimos por bueno y lo aplicamos en la otra, con resultados desastrosos. Al final se convirtió en una de nuestras reglas de trabajo, escrita con todas las letras: *lo medido en una fuente no vale para la otra*.
 
 ```
@@ -138,6 +137,8 @@ Mezclados con el texto aparecen también bytes que no son letras, sino instrucci
 
 Y hubo un glifo con sorpresa: el código **0x24** resultó ser el kanji **両**, la moneda del juego, el *ryō*. Lo descubrimos volcando la fuente entera como imagen, que acabó siendo otra de nuestras reglas: *antes de dibujar un glifo, volcar la fuente completa*. Se ahorran muchas sorpresas.
 
+<img width="256" height="239" alt="Momotarou Katsugeki (Japan)_020" src="https://github.com/user-attachments/assets/0381ec84-82bb-4184-8325-f21d33e00ad0" /> <img width="256" height="240" alt="Momotarou Katsugeki (Japan)-260903-034854" src="https://github.com/user-attachments/assets/80a51869-d99f-4a92-a0b3-592038ad95f1" /> <img width="256" height="240" alt="Momotarou Katsugeki (Japan)-260903-045617" src="https://github.com/user-attachments/assets/d7bd63b1-dedf-46d7-840b-a7a9fb84250c" />
+
 A partir de ahí comenzó uno de los trabajos más importantes de toda la investigación: identificar qué significaba cada byte que aparecía mezclado con el texto. Pronto fueron apareciendo los primeros códigos de control, responsables de cambiar de bocadillo, finalizar un mensaje, introducir pausas o modificar la forma en que el juego representaba los diálogos. Cada nuevo código identificado permitía comprender un poco mejor el funcionamiento interno del motor de texto y acercaba la posibilidad de realizar una traducción completa.
 
 Sin embargo, el descubrimiento que más me llamó la atención fue otro: los diálogos verticales no eran gráficos dibujados manualmente, como en un primer momento podía parecer, sino texto generado dinámicamente por el propio juego. Entre los caracteres aparecían una serie de separadores que todo apuntaba a que indicaban el cambio de columna en los bocadillos verticales. Aquello cambiaba completamente la perspectiva del proyecto, porque el problema ya no consistía únicamente en traducir el japonés al castellano, sino en encontrar la forma de convencer al propio juego de que dejara de escribir en vertical para hacerlo de una manera natural en nuestro idioma.
@@ -151,6 +152,8 @@ Fue uno de esos momentos en los que una investigación responde una pregunta y, 
 Cuando pensamos en una traducción solemos imaginar únicamente el texto, pero en muchos juegos de principios de los noventa una parte importante del idioma no está almacenada como tal, sino integrada directamente en los gráficos. Pantallas de título, menús, carteles, indicadores y logotipos forman parte del propio apartado artístico del juego, y *Momotaro Katsugeki* no es una excepción.
 
 Desde el principio quedó claro que una traducción completa exigiría mucho más que localizar los diálogos: también habría que adaptar una gran cantidad de elementos gráficos para que el resultado final pareciera un lanzamiento pensado desde el primer momento para el mercado español. Ésta es, por cierto, la parte del proyecto que sí llevo yo enteramente. Es curioso el contraste: mientras al otro lado se están desmenuzando rutinas de ensamblador, yo estoy peleándome con un editor de píxeles y contando cuadraditos.
+
+<img width="256" height="240" alt="Momotarou Katsugeki (Japan)-260904-093652" src="https://github.com/user-attachments/assets/426add6a-7404-4504-98c0-6134b4ed09c2" /> <img width="256" height="240" alt="Momotarou Katsugeki (Japan)-260904-093914" src="https://github.com/user-attachments/assets/6b0ea78c-7bb0-4df8-88e6-ef63d86495fd" /> <img width="256" height="240" alt="Momotarou Katsugeki (Japan)-260904-093541" src="https://github.com/user-attachments/assets/9f73c20e-ef06-46b0-8e64-850cee36a9e6" />
 
 Algunas tareas fueron relativamente sencillas, como sustituir pequeños textos japoneses integrados en gráficos, pero otras resultaron bastante más laboriosas. La pantalla de título, por ejemplo, obligó a replantear por completo el diseño original para crear una versión en castellano que mantuviera la personalidad del logotipo japonés sin limitarse a copiarlo literalmente. No se trataba simplemente de escribir otro texto, sino de respetar el ritmo, el equilibrio y el carácter del diseño original, adaptándolo al espacio disponible y a las limitaciones propias del hardware de PC Engine.
 
