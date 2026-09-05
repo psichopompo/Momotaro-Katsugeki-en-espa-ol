@@ -2,6 +2,11 @@
 
 # Momotaro Katsugeki (PC Engine) — Diario de desarrollo de la traducción al castellano
 
+<div align="center">
+  <img width="256" height="239" alt="Momotarou Katsugeki (Japan)_003" src="https://github.com/user-attachments/assets/6fd3ab35-0518-4c3f-a7f7-7f16ffb2ce78" />
+</div>
+
+
 
 El pasado 28 de julio publiqué la traducción al castellano de *Nekketsu Koukou Dodgeball-bu: Soccer Hen* para Mega Drive. Fue mi primer proyecto de *romhacking* y, para mi sorpresa, también la primera traducción conocida de ese juego a cualquier idioma. Después de tres días de trabajo intenso terminé con la sensación de haber aprendido muchísimo, lo suficiente, pensé, como para afrontar un segundo proyecto con bastante más confianza.
 
@@ -36,7 +41,11 @@ Para que nadie tenga que leerlo todo de golpe, éste es el estado del proyecto a
 - **Passwords secretos originales** verificados contra la parrilla latina.
 - **Últimos retoques**: los nombres de tienda «Gema Solar» y «Gema Glacial», el «tu» en lugar del «vuestra» del aldeano, y un carácter fantasma que sobraba al final del minijuego oculto.
 
-Queda un único fleco pendiente, la **firma** de la pantalla de título, del que hablo al final. Todo lo demás está cerrado.
+Todo está ya cerrado.
+
+<img width="256" height="239" alt="Momotarou Katsugeki (Japan)_004" src="https://github.com/user-attachments/assets/bac782f3-e8cf-4f4f-aebf-28b78a0bd884" /> <img width="256" height="239" alt="Momotarou Katsugeki (Japan)_005" src="https://github.com/user-attachments/assets/40387e6d-5fd4-4a63-8116-552ee3456d1d" /> <img width="256" height="239" alt="Momotarou Katsugeki (Japan)_000" src="https://github.com/user-attachments/assets/d3d380ab-2827-45b6-a17e-2a757c21837a" />
+
+
 
 ---
 
@@ -49,6 +58,8 @@ Quiero dejar clara una cosa desde el principio, porque me parece de justicia: **
 Entonces, ¿qué pinto yo aquí? Pues resulta que bastante. Con el paso de los días hemos ido encontrando un reparto de tareas que funciona sorprendentemente bien, aunque no es una división tan limpia como podría parecer.
 
 Yo pongo buena parte del **enfoque**: qué problema merece la pena atacar ahora, qué es importante, qué puede esperar y cuándo conviene abandonar temporalmente una línea de investigación. Yo **juego**: preparo partidas guardadas en puntos concretos, hago capturas, repito recorridos, pruebo comportamientos, comparo resultados y digo "esto no está bien". Yo pongo el **ojo**: veo que faltan cinco píxeles, que un sprite no empalma, que un rótulo está descentrado o que algo que técnicamente parece correcto no se comporta como debería. Yo hago buena parte de la **adaptación gráfica**: redibujo la pantalla de título, adapto letras, modifico fuentes, retoco tiles y rehago los elementos que necesitan una intervención artística. Yo tomo las **decisiones de traducción**: qué se traduce, cómo se formula, qué tono debe tener y qué solución encaja mejor con el espacio disponible y con el espíritu del juego. Y, sobre todo, pongo algo difícil de convertir en una lista: **intuición**. Una sensación de que quizá estamos buscando en el lugar equivocado, de que determinada prueba puede revelar algo importante o de que una solución que parece correcta va a traer problemas en otro sitio.
+
+<img width="256" height="239" alt="Momotarou Katsugeki (Japan)_001" src="https://github.com/user-attachments/assets/d5e381bc-4e53-491f-8a11-ad6bfa268dfe" /> <img width="256" height="239" alt="Momotarou Katsugeki (Japan)_006" src="https://github.com/user-attachments/assets/fa933708-6301-4b56-8624-ee46ff5c9b3c" /> <img width="256" height="239" alt="Momotarou Katsugeki (Japan)_007" src="https://github.com/user-attachments/assets/6db693c6-d4fc-4a99-9622-83570997d479" />
 
 Pero tampoco sería correcto decir que la IA simplemente "hace la parte técnica": su papel es mucho más amplio. Puede analizar la ROM, localizar rutinas, seguir el flujo de ejecución, interpretar el motor de texto, calcular geometrías, escribir herramientas, plantear hipótesis y comprobar relaciones entre sistemas que yo ni habría considerado.
 
@@ -72,6 +83,8 @@ Aunque fuera de Japón sea un gran desconocido, *Momotaro Katsugeki* pertenece a
 
 Si tuviera que compararlo con otro juego conocido por aquí, probablemente la referencia más clara serían los *Ganbare Goemon*. Comparten esa misma mezcla de folclore japonés, fantasía, humor costumbrista y escenarios inspirados en un Japón feudal idealizado, todo ello acompañado por personajes caricaturescos con muchísimo carisma. Es ese tipo de juegos que consiguen arrancarte una sonrisa constantemente gracias a sus animaciones, expresiones y situaciones absurdas. Dentro de la propia franquicia existen también los *Momotaro Dengeki* de Game Boy, que recuerdan bastante a esta entrega y ayudan a hacerse una idea del estilo jugable que buscaba Hudson.
 
+<img width="256" height="239" alt="Momotarou Katsugeki (Japan)_008" src="https://github.com/user-attachments/assets/1dcd9761-cfec-4436-b212-bccc308e2ec2" /> <img width="256" height="239" alt="Momotarou Katsugeki (Japan)_009" src="https://github.com/user-attachments/assets/5033282d-b20d-4c25-9441-049846b2decf" /> <img width="256" height="239" alt="Momotarou Katsugeki (Japan)_010" src="https://github.com/user-attachments/assets/63e88f98-d933-4b30-957f-e5fd37a1317d" />
+
 Pero precisamente todas esas virtudes esconden también el mayor obstáculo para cualquiera que haya pensado alguna vez en traducirlo. No sólo tiene una enorme cantidad de diálogos: muchos aparecen en bocadillos con escritura vertical y lectura de derecha a izquierda, y a eso se suman los textos integrados en gráficos y menús, que exigen adaptación manual. No es casualidad que, tras más de tres décadas, el juego siga sin traducción completa a ningún idioma. Hasta donde he comprobado sólo existe un intento muy temprano al inglés que apenas tocó algunos menús y se abandonó enseguida, sin llegar a resolver los retos técnicos de verdad.
 
 Y quizá esa fue precisamente una de las razones por las que terminé eligiéndolo. Porque detrás de su aspecto desenfadado se escondía un desafío técnico muy superior al que imaginaba en un primer momento. *Y ahí fue donde comenzó realmente esta aventura.*
@@ -83,6 +96,8 @@ Y quizá esa fue precisamente una de las razones por las que terminé eligiéndo
 Cada proyecto comienza mucho antes de encontrar la primera línea de texto. Todo empezó con una pregunta sencilla: ¿cómo está construido realmente *Momotaro Katsugeki*? La experiencia del proyecto anterior servía de punto de partida, pero no podía dar nada por sentado: cada juego usa sus propias rutinas y organiza la información a su manera, por mucho que sean de la misma época.
 
 Las sospechas estaban claras incluso antes de abrir la ROM. El mayor reto serían los diálogos en bocadillos verticales, escritos de arriba abajo y de derecha a izquierda. Mi idea inicial era convertir ese sistema en horizontal, mucho más natural para el castellano, siempre que fuera técnicamente posible. A eso había que añadir los textos integrados en gráficos, la pantalla de título, los menús, los punteros, las rutinas de impresión y la posible compresión de datos.
+
+<img width="256" height="239" alt="Momotarou Katsugeki (Japan)_011" src="https://github.com/user-attachments/assets/85dfd396-e463-44fe-8ad8-93a4990c683f" /> <img width="256" height="239" alt="Momotarou Katsugeki (Japan)_012" src="https://github.com/user-attachments/assets/7b521790-1efe-4eca-a610-03a052195ab2" /> <img width="256" height="239" alt="Momotarou Katsugeki (Japan)_013" src="https://github.com/user-attachments/assets/3563c110-059e-489b-8219-0f08a30a1b62" />
 
 Las primeras horas no fueron de traducir, sino de comprender: identificar la estructura de la ROM, preparar herramientas para inspeccionar gráficos y código, y recopilar capturas de distintas zonas del juego como referencia visual. Y entonces llegó la primera buena noticia: muy pronto quedó claro que, al menos una parte muy importante del texto del juego, no estaba comprimida de forma global. Aquello abría una puerta enorme, porque antes incluso de comprender por completo el funcionamiento interno del motor de texto ya era posible empezar a localizar mensajes, estudiar la codificación utilizada y analizar cómo se organizaban los distintos bloques de diálogo. No era, ni mucho menos, el final del problema; en realidad, sólo era el comienzo. Pero por primera vez el proyecto dejaba de ser una idea para convertirse en una investigación con un camino real por delante.
 
