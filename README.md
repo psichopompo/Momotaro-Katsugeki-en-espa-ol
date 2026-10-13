@@ -642,12 +642,14 @@ Como comentaba en el capítulo de la parrilla, el juego trae una serie de passwo
 
 ## Estado actual y cierre
 
-A día de hoy el proyecto está, salvo por la firma, terminado. Han sido **un mes y una semana** de trabajo, unas cuatrocientas versiones numeradas, un guion completo traducido y una lista de normas que ya supera las cuatrocientas cuarenta. Y si tuviera que quedarme con una sola idea de todo el proceso, sería ésta:
+A día de hoy, el proyecto está terminado, salvo por la firma. Han sido unas cuatrocientas versiones numeradas, un guion completo traducido y una lista de normas que ya supera las cuatrocientas cuarenta.
 
-> **Una IA no sustituye el proceso de investigación. Forma parte de él.**
+Detrás de ese resultado hay muchas horas de investigación, pruebas, correcciones y decisiones. Ha sido un proceso de avances, errores, callejones sin salida y descubrimientos inesperados. Algunos problemas se resolvieron rápidamente; otros exigieron volver sobre nuestros pasos, revisar lo que dábamos por sentado y buscar soluciones desde otra perspectiva.
 
-Yo no sé romhacking. Lo que sé es qué quiero conseguir, mirar con atención, jugar mil veces la misma pantalla y decir "esto no está bien". El trabajo técnico, que es la parte durísima, lo hace la IA, y sin ella este proyecto no existiría. Pero mi parte tampoco sobra: preguntar lo obvio a veces destapa el atajo, una corazonada delante de la pantalla puede ahorrar días, y alguien tiene que jugar, mirar y decidir. Nos hemos equivocado los dos, bastantes veces, y casi siempre nos hemos corregido el uno al otro.
+Si algo me ha dejado este proyecto es la certeza de que el romhacking exige mucho más que conocimientos técnicos. También requiere paciencia, capacidad de observación, criterio para evaluar los resultados e intuición para saber dónde buscar cuando las soluciones evidentes no funcionan. Y, sobre todo, perseverancia para seguir adelante incluso cuando parece que no hay manera de resolver un problema.
 
-Creo que formamos un buen equipo. Y lo mejor es que hace un año esto habría sido sencillamente imposible.
+Hace un tiempo, *Momotaro Katsugeki* era un juego que quería adaptar y cuyo funcionamiento interno desconocía en gran medida. Hoy es un proyecto terminado, con su traducción, sus adaptaciones gráficas y sus modificaciones técnicas, después de un proceso que me ha llevado mucho más lejos de lo que imaginaba al empezar.
+
+Y eso, más allá del resultado, es lo que hace que todo el esfuerzo haya merecido la pena.
 
 Gracias por leer. Y, cuando salga la traducción, espero que la disfrutes con la misma ilusión con la que la hemos construido.
